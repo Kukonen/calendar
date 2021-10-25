@@ -1,0 +1,41 @@
+@mixin headerBlock() {
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #5731f1;
+    color: white;
+    border-radius: 5px;
+    &:hover {
+        background-color: #6a46fa;
+    }
+}
+
+.Header {
+    display: grid;
+    grid-template-columns: 100px 200px auto 200px 100px 200px;
+    grid-template-rows: 1fr;
+    grid-template-areas: ". headerCalendar . headerProfile . headerDate";
+    border: 1px solid #efefef;
+}
+
+.HeaderBlock {
+    padding: 10px;
+}
+
+.HeaderCalendar {
+    @include headerBlock();
+    grid-area: headerCalendar;
+}
+
+.HeaderProfile {
+    @include headerBlock();
+    grid-area: headerProfile;
+}
+
+.HeaderDate {
+    grid-area: headerDate;
+    display: flex;  
+   align-items: flex-end;
+    font-size: 12px;
+    color: grey;
+}

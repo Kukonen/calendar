@@ -1,9 +1,10 @@
 import React from 'react'
+import Month from '../Month/Month'
 
 const App = () => {
     return (
         <div>
-            Calendar
+            <Month  />
         </div>
     )
 }
