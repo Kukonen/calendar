@@ -1,11 +1,10 @@
 import React from 'react'
-
-import Header from '../Header/Header';
+import Day from '../Day/Day'
 
 const Month = () => {
     return (
         <div>
-            <Header />
+            <Day number={3} free={false} activity={false} />
         </div>
     )
 }
