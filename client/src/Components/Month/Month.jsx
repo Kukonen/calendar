@@ -1,10 +1,19 @@
-import React from 'react'
-import Day from '../Day/Day'
+import React from 'react';
+import './Month.scss';
 
-const Month = () => {
+import Week from '../Week/Week';
+
+const Month = (props) => {
+
+    const weeks = props.weeks.map(week => {
+        return (
+            <Week days={week}/>
+        )
+    })
+
     return (
-        <div>
-            <Day number={3} free={false} activity={false} />
+        <div className="Month">
+            {weeks}
         </div>
     )
 }
