@@ -3,8 +3,14 @@ const express =  require('express');
 const mongoose = require('mongoose');
 
 const app = express();
+
+const authRoute = require('./routers/auth.router');
+
 app.use(express.json());
 app.use(express.static('static'));
+
+app.use()
+app.use('/auth', authRoute);
 
 mongoose.connect(process.env.MONGODB, () => {
     console.log(`mongoose running`)
