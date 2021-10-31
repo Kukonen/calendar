@@ -6,12 +6,12 @@ const Week = (props) => {
 
     const days = props.days.map(day => {
         return (
-            <Day number={day.number} free={day.free} activity={day.activity}/>
+            <Day number={day.number} free={day.free} activity={day.activity} sameMonth={day.sameMonth}/>
         )
     })
 
     return (
-        <div>
+        <div className="Week">
             {days}
         </div>
     )

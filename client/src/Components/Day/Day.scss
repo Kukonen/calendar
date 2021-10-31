@@ -1,12 +1,15 @@
 .Day {
     display: flex;
-    width: 200px;
-    height: 200px;
-}
-
-.DayNumber {
-    width: 150px;
-    height: 150px;
+    justify-content: space-between;
+    width: 70px;
+    height: 70px;
+    padding: 15px;
+    margin: 15px;
+    background-color: #efefef;
+    cursor: pointer;
+    &:hover {
+        background-color: #a58fff;
+    }
 }
 
 .DayNumberFree {
@@ -14,10 +17,19 @@
 }
 
 .DayNumberText {
-    font-size: 150px;
+    font-size: 35px;
+}
+
+.DayImageSection {
+    display: flex;
 }
 
 .DayImg {
+    margin-top: auto;
     width: 25px;
     height: 25px;
+}
+
+.DayAnotherMonth {
+    opacity: 60%;
 }
