@@ -5,9 +5,9 @@ import AddIcon from './Add.svg';
 import ShowIcon from './Show.svg';
 
 const Day = (props) => {
-    const {number, free, activity, sameMonth} = props;
+    const {number, free, activity, notSameMonth} = props;
     return (
-        <div className = {sameMonth ? "Day" : "Day DayAnotherMonth"}>
+        <div className = {notSameMonth ? "Day DayAnotherMonth" : "Day"}>
             <div className={free ? "DayNumber DayNumberFree" : "DayNumber"}>
                 <span className="DayNumberText">{number}</span>
             </div>

@@ -35,8 +35,8 @@ const Header = () => {
             </div>
             <div className = "HeaderBlock HeaderDate">
                 Today:&nbsp;
-                {date.getDay() < 10 ? "0"+ date.getDay() : date.getDay()}.
-                {date.getMonth() < 10 ? "0"+ date.getMonth() : date.getMonth()}.
+                {date.getDate() < 10 ? "0"+ date.getDate() : date.getDate()}.
+                {date.getMonth() + 1 < 10 ? "0"+ date.getMonth() + 1 : date.getMonth() + 1}.
                 {date.getFullYear()}
                 </div>
         </div>
