@@ -9,10 +9,10 @@ const App = () => {
     // const daysInMonth = (month, year) => new Date(year, month, 0).getDate();
     
     let now = new Date();
-    // now = new Date(now.getFullYear(), now.getMonth(), 0)
+    // now = new Date(now.getFullYear(), now.getMonth() - 2, 0)   // debug date
 
     const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-    const lastMonth = new Date(now.getFullYear(), now.getMonth(), 0)
+    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
 
     const daysInThisMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
     const daysInLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
@@ -52,7 +52,7 @@ const App = () => {
                 days++;
             } else {
                 weeks[i][j] = {
-                    number: lastMonth.getDay() + 1,
+                    number: lastMonth.getDate() ,
                     free: j === 5 || j === 6 ? true : false,
                     activity: false,
                     notSameMonth: true
