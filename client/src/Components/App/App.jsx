@@ -1,5 +1,8 @@
 import React from 'react'
+import {useState} from 'react'
+
 import Header from '../Header/Header';
+import SwitchMonth from '../SwitchMonth/SwitchMonth'
 import Month from '../Month/Month'
 
 const App = () => {
@@ -11,11 +14,26 @@ const App = () => {
     let now = new Date();
     // now = new Date(now.getFullYear(), now.getMonth() - 2, 0)   // debug date
 
-    const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-    const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    const [date, setDate] = useState(now)
 
-    const daysInThisMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-    const daysInLastMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    const early = () => {
+        const newDate = date;
+        newDate.setMonth(date.getMonth() - 1)
+        setDate(newDate)
+        console.log(date)
+    }
+    const later = () => {
+        const newDate = date;
+        newDate.setMonth(date.getMonth() + 1)
+        setDate(newDate)
+        console.log(date)
+    }
+
+    const thisMonth = new Date(date.getFullYear(), date.getMonth(), 1)
+    const lastMonth = new Date(date.getFullYear(), date.getMonth() - 1, 1)
+
+    const daysInThisMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    const daysInLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
 
     for (let i = 0, days = 1; days < daysInThisMonth; ++i) {
         weeks.push([]);
@@ -65,6 +83,7 @@ const App = () => {
     return (
         <div>
             <Header/>
+            <SwitchMonth early={early} later={later}/>
             <Month weeks={weeks} />
         </div>
     )

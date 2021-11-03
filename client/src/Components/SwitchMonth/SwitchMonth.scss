@@ -1,0 +1,18 @@
+.SwitchMonth {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 10px;
+}
+
+.SwitchMonthBlock {
+    padding: 10px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #5731f1;
+    color: white;
+    border-radius: 5px;
+    &:hover {
+        background-color: #6a46fa;
+    }
+}
