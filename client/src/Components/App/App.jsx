@@ -20,20 +20,27 @@ const App = () => {
         const newDate = date;
         newDate.setMonth(date.getMonth() - 1)
         setDate(newDate)
-        console.log(date)
+        changeMonthStates(newDate)
     }
     const later = () => {
         const newDate = date;
         newDate.setMonth(date.getMonth() + 1)
         setDate(newDate)
-        console.log(date)
+        changeMonthStates(newDate)
     }
 
-    const thisMonth = new Date(date.getFullYear(), date.getMonth(), 1)
-    const lastMonth = new Date(date.getFullYear(), date.getMonth() - 1, 1)
+    const changeMonthStates = (newDate) => {
+        setThisMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1));
+        setLastMonth(new Date(newDate.getFullYear(), newDate.getMonth() - 1, 1));
+        setDaysInThisMonth(new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate());
+        setDaysInLastMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 0).getDate());
+    }
 
-    const daysInThisMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    const daysInLastMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+    const [thisMonth, setThisMonth] = useState(new Date(date.getFullYear(), date.getMonth(), 1));
+    const [lastMonth, setLastMonth] = useState(new Date(date.getFullYear(), date.getMonth() - 1, 1));
+
+    const [daysInThisMonth, setDaysInThisMonth] = useState(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
+    const [daysInLastMonth, setDaysInLastMonth] = useState(new Date(date.getFullYear(), date.getMonth(), 0).getDate());
 
     for (let i = 0, days = 1; days < daysInThisMonth; ++i) {
         weeks.push([]);
