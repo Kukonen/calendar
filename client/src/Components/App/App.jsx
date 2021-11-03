@@ -90,7 +90,7 @@ const App = () => {
     return (
         <div>
             <Header/>
-            <SwitchMonth early={early} later={later}/>
+            <SwitchMonth early={early} later={later} currentMonth={date.getMonth()}/>
             <Month weeks={weeks} />
         </div>
     )
