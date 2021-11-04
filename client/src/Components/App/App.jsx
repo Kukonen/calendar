@@ -9,10 +9,7 @@ const App = () => {
 
     let weeks = [];
 
-    // const daysInMonth = (month, year) => new Date(year, month, 0).getDate();
-    
     let now = new Date();
-    // now = new Date(now.getFullYear(), now.getMonth() - 2, 0)   // debug date
 
     const [date, setDate] = useState(now)
 
@@ -42,7 +39,7 @@ const App = () => {
     const [daysInThisMonth, setDaysInThisMonth] = useState(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
     const [daysInLastMonth, setDaysInLastMonth] = useState(new Date(date.getFullYear(), date.getMonth(), 0).getDate());
 
-    for (let i = 0, days = 1; days < daysInThisMonth; ++i) {
+    for (let i = 0, days = 1; days <= daysInThisMonth; ++i) {
         weeks.push([]);
         const startWeekDay = thisMonth.getDay() === 0 ? 7 : thisMonth.getDay();
         if (i === 0 && startWeekDay !== 0) {
