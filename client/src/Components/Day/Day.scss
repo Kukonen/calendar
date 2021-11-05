@@ -1,35 +1,44 @@
+$color: black;
+$background-color: #efefef;
+$background-active-color: #a58fff;
+$day-free-color: red;
+
 .Day {
     display: flex;
+    color: $color;
     justify-content: space-between;
     width: 70px;
     height: 70px;
     padding: 15px;
     margin: 15px;
-    background-color: #efefef;
+    background-color: $background-color;
     cursor: pointer;
     &:hover {
-        background-color: #a58fff;
+        background-color: $background-active-color;
+    }
+    .DayNumberFree {
+        color: $day-free-color;
+    }
+    .DayNumberText {
+        font-size: 35px;
+    }
+    .DayImageSection {
+        display: flex;
+    }
+    .DayImg {
+        margin-top: auto;
+        width: 25px;
+        height: 25px;
     }
 }
 
-.DayNumberFree {
-    color: red;
-}
-
-.DayNumberText {
-    font-size: 35px;
-}
-
-.DayImageSection {
-    display: flex;
-}
-
-.DayImg {
-    margin-top: auto;
-    width: 25px;
-    height: 25px;
-}
-
 .DayAnotherMonth {
-    opacity: 60%;
+    color: lighten($color, 15%);
+    background-color: lighten($background-color, 3%);
+    &:hover {
+        background-color: lighten($background-active-color, 10%) ;
+    }
+    .DayNumberFree {
+        color: lighten($day-free-color, 15%);
+    }
 }
