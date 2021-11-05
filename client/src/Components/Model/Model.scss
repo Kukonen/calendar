@@ -1,0 +1,56 @@
+$border-color: #efefef;
+
+#model {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.25);
+    position: fixed;
+    display: flex;
+}
+
+#ModelBlock {
+    padding: 10px;
+    background-color: white;
+    margin: 10% auto auto auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+
+.ModelHeadline {
+    margin: 20px auto auto auto;
+    font-size: 22px;
+}
+
+.ModelInputBlock {
+    display: flex;
+    margin: 20px 10px 0 10px;
+    &:last-of-type {
+        margin: 20px 10px 30px 10px;
+    }
+}
+
+.ModelInput {
+    border: 1px solid $border-color;
+    font-size: 20px;
+    outline: none;
+    border-radius: 5px;
+    padding: 10px;
+    &:focus {
+        border: 1px solid darken($border-color, 20%) ;
+    }
+}
+
+.ModelButton {
+    margin: auto;
+    font-size: 20px;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    background-color: #5731f1;
+    color: white;
+    border-radius: 5px;
+    &:hover {
+        background-color: #6a46fa;
+    }
+}

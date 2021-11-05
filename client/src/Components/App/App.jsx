@@ -2,8 +2,9 @@ import React from 'react'
 import {useState} from 'react'
 
 import Header from '../Header/Header';
-import SwitchMonth from '../SwitchMonth/SwitchMonth'
-import Month from '../Month/Month'
+import Model from '../Model/Model';
+import SwitchMonth from '../SwitchMonth/SwitchMonth';
+import Month from '../Month/Month';
 
 const App = () => {
 
@@ -86,6 +87,7 @@ const App = () => {
 
     return (
         <div>
+            <Model mode={"login"}/>
             <Header/>
             <SwitchMonth early={early} later={later} currentMonth={date.getMonth()}/>
             <Month weeks={weeks} />
