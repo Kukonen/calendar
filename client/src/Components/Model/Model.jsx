@@ -1,9 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Model.scss';
 
-const Register = (props) => {
+const Model = (props) => {
 
-    const {mode} = props;
+    const {mode, onСlose} = props;
+
+    const close = (event) => {
+        if (event.code === "Escape") {
+            onСlose();
+        }
+    }
+
+    useEffect(() => {
+        document.addEventListener('keydown', close)
+        return () => {
+            document.removeEventListener('keydown', close)
+        }
+    })
 
     if (mode === "login") {
         return (
@@ -36,11 +49,11 @@ const Register = (props) => {
                 </div>
             </div>
         )
+    } else if (mode === "invisible") {
+        return (
+            <div></div>
+        )
     }
-
-    return (
-        <div></div>
-    )
 }
 
-export default Register;
+export default Model;

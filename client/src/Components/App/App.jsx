@@ -85,11 +85,22 @@ const App = () => {
         }
     }
 
+    const [modelWindowMode, setModelWindowMode] = useState("invisible");
+
+    function onСloseModelWindow() {
+        setModelWindowMode("invisible")
+    } 
+
+    function onChangeModelWindowState(mode) {
+        if (mode === "login" || "register" || "invisible")
+            setModelWindowMode(mode)
+    }
+
     return (
         <div>
-            <Model mode={"login"}/>
-            <Header/>
-            <SwitchMonth early={early} later={later} currentMonth={date.getMonth()}/>
+            <Model mode={modelWindowMode} onСlose={onСloseModelWindow} />
+            <Header modelWindow={onChangeModelWindowState} />
+            <SwitchMonth early={early} later={later} currentMonth={date.getMonth()} />
             <Month weeks={weeks} />
         </div>
     )
