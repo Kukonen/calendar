@@ -35,11 +35,11 @@ const Model = (props) => {
                 </div>
             </div>
         )
-    } else if (mode === "register") {
+    } else if (mode === "profile") {
         return (
             <div id="model">
                 <div id="ModelBlock">
-                    <div className="ModelHeadline">Sign up</div>
+                    <div className="ModelHeadline">Profile</div>
                     <div className="ModelInputBlock">
                         <input className="ModelInput" type="text" placeholder="email" />
                     </div>

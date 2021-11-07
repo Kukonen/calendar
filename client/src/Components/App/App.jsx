@@ -92,7 +92,7 @@ const App = () => {
     } 
 
     function onChangeModelWindowState(mode) {
-        if (mode === "login" || "register" || "invisible")
+        if (mode === "login" || "profile" || "invisible")
             setModelWindowMode(mode)
     }
 

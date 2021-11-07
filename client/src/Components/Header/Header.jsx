@@ -22,17 +22,22 @@ const name = Cookies.get('name') ?
     getName() :
     null
 
-const Header = () => {
+const Header = (props) => {
+
+    const {modelWindow} = props;
+
     return (
         <div className = "Header">
             <div className = "HeaderBlock HeaderCalendar">Calendar</div>
-            <div className = "HeaderBlock HeaderProfile">
-                {
-                    name ? 
-                        name : 
-                            <span>Sign in</span>   
-                }
-            </div>
+            {
+                name ?
+                <div className = "HeaderBlock HeaderProfile" onClick={() => modelWindow("profile")}>
+                    {name}
+                </div> :
+                <div className = "HeaderBlock HeaderProfile" onClick={() => modelWindow("login")}>
+                    Sign in
+                </div>
+            }
             <div className = "HeaderBlock HeaderDate">
                 Today:&nbsp;
                 {date.getDate() < 10 ? "0"+ date.getDate() : date.getDate()}.
