@@ -6,7 +6,7 @@ import Register from './Mods/Register';
 
 const Model = (props) => {
 
-    const {mode, onСlose} = props;
+    const {mode, onСlose, changeMode} = props;
 
     const close = (event) => {
         if (event.code === "Escape") {
@@ -20,14 +20,17 @@ const Model = (props) => {
             document.removeEventListener('keydown', close)
         }
     })
+    const changeModelMode = (mode) => {
+        changeMode(mode)
+    }
 
     if (mode === "login") {
         return (
-            <Login />
+            <Login changeMode={changeModelMode}/>
         )
     } else if (mode === "register") {
         return (
-            <Register />
+            <Register changeMode={changeModelMode}/>
         )
     } else if (mode === "profile") {
         return (

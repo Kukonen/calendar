@@ -92,13 +92,13 @@ const App = () => {
     } 
 
     function onChangeModelWindowState(mode) {
-        if (mode === "login" || "profile" || "invisible")
+        if (mode === "login" || "profile" || "register" || "invisible")
             setModelWindowMode(mode)
     }
 
     return (
         <div>
-            <Model mode={modelWindowMode} onСlose={onСloseModelWindow} />
+            <Model mode={modelWindowMode} changeMode={onChangeModelWindowState} onСlose={onСloseModelWindow} />
             <Header modelWindow={onChangeModelWindowState} />
             <SwitchMonth early={early} later={later} currentMonth={date.getMonth()} />
             <Month weeks={weeks} />
