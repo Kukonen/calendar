@@ -64,7 +64,7 @@ const App = () => {
             }
             continue;
         } 
-        for (let j = 0; j < 7; ++j) {
+        for (let j = 0,  k = 1; j < 7; ++j) {
             if (days <= daysInThisMonth) {
                 weeks[i][j] = {
                     number: days,
@@ -75,12 +75,12 @@ const App = () => {
                 days++;
             } else {
                 weeks[i][j] = {
-                    number: lastMonth.getDate() ,
+                    number: k ,
                     free: j === 5 || j === 6 ? true : false,
                     activity: false,
                     notSameMonth: true
                 }
-                lastMonth.setDate(lastMonth.getDate() + 1);
+                k++;
             }
         }
     }
