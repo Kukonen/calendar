@@ -1,6 +1,7 @@
 const User = require('../model/User');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 
 class AuthController {
 
@@ -22,12 +23,46 @@ class AuthController {
             })
         }
         const salt =  await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, salt)
-        await new User({id, key, name, email, password: hashPassword}).save().then(() => {
-            res.json({
-                status: "ok"
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        try {
+            let message = {
+                from: `${process.env.EMAIL}`,
+                to: email,
+                subject: "Calendar",
+                html: `
+                <h3>Hello, ${name}.</h3>
+                <br/>
+                <p>We are very glad to see you in our <a href=${process.env.SITEPATH}>calendar</a>!</p>
+                `
+            };
+
+        let transporter = nodemailer.createTransport({
+                host: "smtp.mail.ru",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: `${process.env.EMAIL}`,
+                    pass: `${process.env.EMAIL_PASSWORD}`
+                }
+            });
+
+            await transporter.sendMail(message).then(() => {
+                return res.json({
+                    status: "ok"
+                })
             })
-        });
+        } catch {
+            return res.json({
+                status: "error",
+                discription: "error with send"
+            })
+        }
+        // await new User({id, key, name, email, password: hashPassword}).save().then(() => {
+        //     res.json({
+        //         status: "ok"
+        //     })
+        // });
     }
 
     async login(req, res) {
