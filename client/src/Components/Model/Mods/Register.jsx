@@ -22,7 +22,8 @@ const Register = (props) => {
         if (password === "") {
             setError("Invalid pasword");
         }
-        axios.post('/auth/login', {
+        axios.post('/auth/register', {
+            name,
             email,
             password
         }).then(response => {
