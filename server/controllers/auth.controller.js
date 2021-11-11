@@ -47,22 +47,20 @@ class AuthController {
                 }
             });
 
-            await transporter.sendMail(message).then(() => {
-                return res.json({
-                    status: "ok"
-                })
-            })
+            await transporter.sendMail(message).then()
+
         } catch {
             return res.json({
                 status: "error",
                 discription: "error with send"
             })
         }
-        // await new User({id, key, name, email, password: hashPassword}).save().then(() => {
-        //     res.json({
-        //         status: "ok"
-        //     })
-        // });
+        await new User({id, key, name, email, password: hashPassword}).save().then(() => {
+            res.cookie('key', key, {httpOnly: true})
+            res.json({
+                status: "ok"
+            })
+        });
     }
 
     async login(req, res) {
@@ -76,6 +74,7 @@ class AuthController {
         }
         const paswordMatch = await bcrypt.compare(password, user.password)
         if (paswordMatch) {
+            res.cookie('key', user.key, {httpOnly: true})
             res.json({  
                 status: "ok"
             })
