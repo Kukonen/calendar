@@ -11,7 +11,7 @@ const usersSchema = new Schema({
         type: String,
         required: true
     },
-    years: {
+    activity: {
         type: Array,
         required: false
     }

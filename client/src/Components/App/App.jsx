@@ -5,10 +5,12 @@ import Header from '../Header/Header';
 import Model from '../Model/Model';
 import SwitchMonth from '../SwitchMonth/SwitchMonth';
 import Month from '../Month/Month';
+import axios from 'axios';
 
 const App = () => {
 
     let weeks = [];
+    const [activity, setActivity] = useState([]);
 
     let now = new Date();
 
@@ -19,13 +21,29 @@ const App = () => {
         newDate.setMonth(date.getMonth() - 1)
         setDate(newDate)
         changeMonthStates(newDate)
+        getActivity(newDate)
     }
     const later = () => {
         const newDate = date;
         newDate.setMonth(date.getMonth() + 1)
         setDate(newDate)
         changeMonthStates(newDate)
+        getActivity(newDate)
     }
+
+    const getActivity = (date) => {
+        date.setDate(1);
+        axios.post('calendar/getactivity', {
+            date
+        }).then(response => {
+            const data = response.data;
+            if (data.status === "ok") {
+                setActivity(data.activity);
+            }
+        })
+    }
+
+    getActivity(date);
 
     const changeMonthStates = (newDate) => {
         setThisMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1));
@@ -57,7 +75,7 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: false,
+                    activity: activity.filter(activity => activity.day === days),
                     notSameMonth: false
                 }
                 days++;
@@ -69,7 +87,7 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: false,
+                    activity: activity.filter(activity => activity.day === days),
                     notSameMonth: false
                 }
                 days++;
