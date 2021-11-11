@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const usersSchema = new Schema({
+const calendarSchema = new Schema({
     id: {
         type: String,
         required: false,
@@ -17,4 +17,4 @@ const usersSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('Users', usersSchema);
+module.exports = mongoose.model('Calendar', calendarSchema);
