@@ -1,11 +1,13 @@
 import React from 'react'
 import {useState} from 'react'
+import axios from 'axios';
 
 import Header from '../Header/Header';
 import Model from '../Model/Model';
 import SwitchMonth from '../SwitchMonth/SwitchMonth';
 import Month from '../Month/Month';
-import axios from 'axios';
+import Activity from '../Activity/Activity';
+
 
 const App = () => {
 
@@ -87,7 +89,7 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: activity.filter(activity => activity.day === days),
+                    activity: activity.filter(activity => activity.date.filter(date => date.day === days) ),
                     notSameMonth: false
                 }
                 days++;
@@ -114,9 +116,27 @@ const App = () => {
             setModelWindowMode(mode)
     }
 
+    const [activeWindowMode, setActiveWindowMode] = useState("active");
+
+    const note={}
+
+    function onСloseActiveWindow() {
+        setActiveWindowMode("nonactive")
+    }
+
     return (
         <div>
-            <Model mode={modelWindowMode} changeMode={onChangeModelWindowState} onСlose={onСloseModelWindow} />
+            <Model 
+                mode={modelWindowMode} 
+                changeMode={onChangeModelWindowState} 
+                onСlose={onСloseModelWindow} 
+            />
+            <Activity 
+                mode={activeWindowMode}
+                onСlose={onСloseActiveWindow}
+                note = {note}
+                date = {date}
+            />
             <Header modelWindow={onChangeModelWindowState} />
             <SwitchMonth early={early} later={later} currentMonth={date.getMonth()} />
             <Month weeks={weeks} />

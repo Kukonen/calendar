@@ -1,0 +1,13 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+<line x1="155" y1="53" x2="155" y2="123" stroke="black" stroke-width="10"/>
+<line x1="150" y1="118" x2="295" y2="118" stroke="black" stroke-width="10"/>
+<line x1="290" y1="121.004" x2="290" y2="49.9965" stroke="black" stroke-width="10"/>
+<line x1="263" y1="101" x2="263" y2="71" stroke="black" stroke-width="10"/>
+<line x1="110" y1="350" x2="110" y2="260" stroke="black" stroke-width="10"/>
+<line x1="271" y1="350" x2="271" y2="260" stroke="black" stroke-width="10"/>
+<line x1="105" y1="255" x2="276" y2="255" stroke="black" stroke-width="10"/>
+<line x1="135" y1="323" x2="235" y2="323" stroke="black" stroke-width="10"/>
+<line x1="136" y1="300" x2="236" y2="300" stroke="black" stroke-width="10"/>
+<line x1="136" y1="277" x2="186" y2="277" stroke="black" stroke-width="10"/>
+<path d="M55 77C55 64.8497 64.8497 55 77 55H293.787C296.439 55 298.982 56.0536 300.858 57.9289L338.556 95.6274C342.682 99.7532 345 105.349 345 111.184V323C345 335.15 335.15 345 323 345H77C64.8497 345 55 335.15 55 323V77Z" stroke="black" stroke-width="10"/>
+</svg>
