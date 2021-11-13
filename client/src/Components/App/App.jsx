@@ -1,6 +1,7 @@
 import React from 'react'
 import {useState} from 'react'
 import axios from 'axios';
+import { Context } from '../../context';
 
 import Header from '../Header/Header';
 import Model from '../Model/Model';
@@ -60,6 +61,8 @@ const App = () => {
     const [daysInThisMonth, setDaysInThisMonth] = useState(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
     const [daysInLastMonth, setDaysInLastMonth] = useState(new Date(date.getFullYear(), date.getMonth(), 0).getDate());
 
+    // activity => activity.date.filter(date => date.day === days)
+
     for (let i = 0, days = 1; days <= daysInThisMonth; ++i) {
         weeks.push([]);
         const startWeekDay = thisMonth.getDay() === 0 ? 7 : thisMonth.getDay();
@@ -77,7 +80,7 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: activity.filter(activity => activity.day === days),
+                    activity: false,
                     notSameMonth: false
                 }
                 days++;
@@ -89,7 +92,7 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: activity.filter(activity => activity.date.filter(date => date.day === days) ),
+                    activity: false,
                     notSameMonth: false
                 }
                 days++;
@@ -116,31 +119,57 @@ const App = () => {
             setModelWindowMode(mode)
     }
 
-    const [activeWindowMode, setActiveWindowMode] = useState("active");
+    const [activeWindowMode, setActiveWindowMode] = useState("nonactive");
 
-    const note={}
+    const [note, setNote] = useState();
+    const [activityDate, setActivityDate] = useState();
+
+    const openActivity = (day) => {
+        setActiveWindowMode("active");
+        
+        let dateOfThisActivity = date;
+        dateOfThisActivity.setDate(day);
+
+        if (day) {
+            axios.post("calendar/savenote", {
+                date: dateOfThisActivity
+            })
+            setActivityDate(date);
+        } else {
+            return;
+        }
+        if (note) {
+            setNote(note);
+        } else {
+            setNote("");
+        }
+    }
 
     function onСloseActiveWindow() {
         setActiveWindowMode("nonactive")
     }
 
     return (
-        <div>
-            <Model 
-                mode={modelWindowMode} 
-                changeMode={onChangeModelWindowState} 
-                onСlose={onСloseModelWindow} 
-            />
-            <Activity 
-                mode={activeWindowMode}
-                onСlose={onСloseActiveWindow}
-                note = {note}
-                date = {date}
-            />
-            <Header modelWindow={onChangeModelWindowState} />
-            <SwitchMonth early={early} later={later} currentMonth={date.getMonth()} />
-            <Month weeks={weeks} />
-        </div>
+        <Context.Provider value={{
+            openActivity
+        }}>
+            <div>
+                <Model 
+                    mode={modelWindowMode} 
+                    changeMode={onChangeModelWindowState} 
+                    onСlose={onСloseModelWindow} 
+                />
+                <Activity 
+                    mode={activeWindowMode}
+                    onСlose={onСloseActiveWindow}
+                    note = {note}
+                    date = {activityDate}
+                />
+                <Header modelWindow={onChangeModelWindowState} />
+                <SwitchMonth early={early} later={later} currentMonth={date.getMonth()} />
+                <Month weeks={weeks} />
+            </div>
+        </Context.Provider>
     )
 }
 
