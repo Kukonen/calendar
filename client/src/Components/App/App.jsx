@@ -131,8 +131,8 @@ const App = () => {
         dateOfThisActivity.setDate(day);
 
         if (day) {
-            axios.post("calendar/savenote", {
-                date: dateOfThisActivity
+            axios.get(`calendar/getnote/${date}`).then(response => {
+                console.log(response.data)
             })
             setActivityDate(date);
         } else {
