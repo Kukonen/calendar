@@ -147,8 +147,6 @@ class CalendarController {
             } else {
                 activity[idxActivity].notes[idxDay].note = note;
             }
-
-            activity[idxActivity].notes
         }
 
         await Calendar.findOneAndUpdate({key}, {activity})

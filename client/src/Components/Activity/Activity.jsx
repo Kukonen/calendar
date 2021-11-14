@@ -74,6 +74,48 @@ const Activity = (props) => {
         if (note === "") {
             return;
         }
+
+        const activity = JSON.parse(localStorage.getItem('activity'))
+
+        const day =  date.getDate();
+
+        let calendarDate =  new Date(date);
+        calendarDate.setDate(1);
+        calendarDate.setHours(1);
+        calendarDate.setMinutes(1);
+        calendarDate.setSeconds(1);
+        calendarDate.setMilliseconds(1);
+
+        const idxActivity = activity.map(act => act.date).findIndex(actDate => 
+            actDate === calendarDate.getTime()
+        );
+
+        if (idxActivity === -1) {
+            activity.push({
+                date: calendarDate.getTime(),
+                notes: [
+                    {
+                        day,
+                        note
+                    }
+                ]
+            })
+        
+        } else {
+            const idxDay = activity[idxActivity].notes.map(notes => notes.day).indexOf(day);
+
+            if (idxDay === -1) {
+                activity[idxActivity].notes.push({
+                    day,
+                    note
+                })
+            } else {
+                activity[idxActivity].notes[idxDay].note = note;
+            }
+        }
+
+        localStorage.setItem('activity', JSON.stringify(activity))
+        
         axios.post("calendar/savenote", {
             date: date.getTime(),
             note
