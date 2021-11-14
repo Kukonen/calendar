@@ -61,8 +61,6 @@ const App = () => {
     const [daysInThisMonth, setDaysInThisMonth] = useState(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate());
     const [daysInLastMonth, setDaysInLastMonth] = useState(new Date(date.getFullYear(), date.getMonth(), 0).getDate());
 
-    // activity => activity.date.filter(date => date.day === days)
-
     for (let i = 0, days = 1; days <= daysInThisMonth; ++i) {
         weeks.push([]);
         const startWeekDay = thisMonth.getDay() === 0 ? 7 : thisMonth.getDay();
@@ -121,20 +119,18 @@ const App = () => {
 
     const [activeWindowMode, setActiveWindowMode] = useState("nonactive");
 
-    const [note, setNote] = useState();
-    const [activityDate, setActivityDate] = useState();
+    const [note, setNote] = useState("");
+    const [activityDate, setActivityDate] = useState(0);
 
     const openActivity = (day) => {
-        setActiveWindowMode("active");
-        
         let dateOfThisActivity = date;
         dateOfThisActivity.setDate(day);
 
         if (day) {
-            axios.get(`calendar/getnote/${date}`).then(response => {
+            axios.get(`calendar/getnote/${dateOfThisActivity}`).then(response => {
                 console.log(response.data)
             })
-            setActivityDate(date);
+            setActivityDate(dateOfThisActivity.getTime());
         } else {
             return;
         }
@@ -143,6 +139,8 @@ const App = () => {
         } else {
             setNote("");
         }
+
+        setActiveWindowMode("active");
     }
 
     function onСloseActiveWindow() {

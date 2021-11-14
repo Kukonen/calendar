@@ -95,16 +95,14 @@ class CalendarController {
         const {note} = req.body;
         const date = new Date(req.body.date);
 
-        let calendarDate = date;
+        const day =  date.getDate();
+
+        let calendarDate =  date;
         calendarDate.setDate(1);
         calendarDate.setHours(1);
         calendarDate.setMinutes(1);
         calendarDate.setSeconds(1);
         calendarDate.setMilliseconds(1);
-
-        const day =  calendarDate.getDate();
-
-        console.log(date);
 
         const calendar = await Calendar.findOne({key});
 
@@ -113,7 +111,7 @@ class CalendarController {
             const id = uuid.v4();
 
             await new Calendar({id, key, activity: [{
-                date: calendarDate,
+                date: calendarDate.getTime(),
                 notes: {
                     day,
                     note
@@ -127,14 +125,13 @@ class CalendarController {
 
         let activity = calendar.activity;
 
-        const idxActivity = activity.map(act => act.date).findIndex(actDate => {
-            actDate = new Date(actDate);
-            return actDate.getTime() === calendarDate.getTime();
-        });
+        const idxActivity = activity.map(act => act.date).findIndex(actDate => 
+            actDate === calendarDate.getTime()
+        );
 
         if (idxActivity === -1) {
             activity.push({
-                date: calendarDate,
+                date: calendarDate.getTime(),
                 notes: [
                         {
                             day,

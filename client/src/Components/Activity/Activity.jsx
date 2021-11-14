@@ -7,11 +7,9 @@ import { ReactComponent as SaveImg } from './save.svg';
 
 const Activity = (props) => {
 
-    const {mode, onСlose, date} = props;
+    const {mode, onСlose} = props;
 
-    // const day = date.getDate();
-    // const dateWithFirstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    // console.log(date)
+    const date = new Date(props.date);
 
     const [note, setNote] = useState(props.note);
 
@@ -30,7 +28,7 @@ const Activity = (props) => {
 
     const noteDelete = () => {
         axios.post("calendar/deletenote", {
-            date,
+            date: date.getTime(),
             note
         }).then()
     }
@@ -40,7 +38,7 @@ const Activity = (props) => {
             return;
         }
         axios.post("calendar/savenote", {
-            date,
+            date: date.getTime(),
             note
         }).then()
     }
