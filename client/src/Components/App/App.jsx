@@ -70,7 +70,6 @@ const App = () => {
                 weeks[i][j] = {
                     number: daysInLastMonth - k,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: false,
                     notSameMonth: true
                 }
             }
@@ -78,7 +77,6 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: false,
                     notSameMonth: false
                 }
                 days++;
@@ -90,7 +88,6 @@ const App = () => {
                 weeks[i][j] = {
                     number: days,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: false,
                     notSameMonth: false
                 }
                 days++;
@@ -98,7 +95,6 @@ const App = () => {
                 weeks[i][j] = {
                     number: k ,
                     free: j === 5 || j === 6 ? true : false,
-                    activity: false,
                     notSameMonth: true
                 }
                 k++;

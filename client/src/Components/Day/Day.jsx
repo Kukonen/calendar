@@ -2,11 +2,10 @@ import React, {useContext} from 'react';
 import './Day.scss';
 import { Context } from '../../context';
 
-import AddIcon from './Add.svg';
-import ShowIcon from './Show.svg';
+import NoteIcon from './Note.svg';
 
 const Day = (props) => {
-    const {number, free, activity, notSameMonth} = props;
+    const {number, free, notSameMonth} = props;
 
     const {openActivity, early, later} = useContext(Context);
     
@@ -27,15 +26,7 @@ const Day = (props) => {
                 <span className="DayNumberText">{number}</span>
             </div>
             <div className="DayImageSection">{
-                activity ?  
-                    <img className="DayImg" src={ShowIcon} alt="show" 
-                        onClick = {() => {
-                            if (!notSameMonth) {
-                                openActivity(number)
-                            }
-                        }}
-                    /> :
-                    <img className="DayImg" src={AddIcon} alt="add" 
+                    <img className="DayImg" src={NoteIcon} alt="note" 
                         onClick = {() => {
                             openActivity(number)
                         }}
