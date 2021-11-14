@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import './SwitchMonth.scss'
+import { Context } from '../../context';
 
 const SwitchMonth = (props) => {
 
-    const {early, later, currentMonth} = props; 
+    const {currentMonth} = props; 
+
+    const {early, later} = useContext(Context);
+
     const month = 
     currentMonth === 0 ? 'January' :
     currentMonth === 1 ? 'February' :

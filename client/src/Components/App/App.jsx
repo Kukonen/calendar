@@ -149,7 +149,9 @@ const App = () => {
 
     return (
         <Context.Provider value={{
-            openActivity
+            openActivity,
+            early,
+            later
         }}>
             <div>
                 <Model 
@@ -163,7 +165,7 @@ const App = () => {
                     date = {activityDate}
                 />
                 <Header modelWindow={onChangeModelWindowState} />
-                <SwitchMonth early={early} later={later} currentMonth={date.getMonth()} />
+                <SwitchMonth currentMonth={date.getMonth()} />
                 <Month weeks={weeks} />
             </div>
         </Context.Provider>
