@@ -75,7 +75,72 @@ class CalendarController {
     }
 
     async deleteNote(req, res) {
+        const key = req.cookies.key;
 
+        if (!key) {
+            return res.json({
+                status: "error",
+                discription: "user are not login"
+            })
+        }
+
+        const date = new Date(req.body.date);
+
+        const day =  date.getDate();
+
+        let calendarDate =  date;
+        calendarDate.setDate(1);
+        calendarDate.setHours(1);
+        calendarDate.setMinutes(1);
+        calendarDate.setSeconds(1);
+        calendarDate.setMilliseconds(1);
+
+        const calendar = await Calendar.findOne({key});
+
+        if (!calendar) {
+            return res.json({
+                status: "error",
+                discription: "user have not calendar"
+            })
+        }
+
+        let activity = calendar.activity;
+
+        const idxActivity = activity.map(act => act.date).findIndex(actDate => 
+            actDate === calendarDate.getTime()
+        );
+
+        if (idxActivity === -1) {
+            return res.json({
+                status: "error",
+                discription: "no such note in calendar"
+            })
+        } else {
+            const idxDay = activity[idxActivity].notes.map(notes => notes.day).indexOf(day);
+
+            if (idxDay === -1) {
+                return res.json({
+                    status: "error",
+                    discription: "no such note in calendar"
+                })
+            } else {
+                if (activity[idxActivity].notes.length > 1) {
+                    activity[idxActivity].notes.splice(idxDay ,1);
+                } else {
+                    if (activity.length > 1) {
+                        activity.slice(idxDay ,1);
+                    } else {
+                        activity = []
+                    }
+                }
+
+                await Calendar.findOneAndUpdate({key}, {activity})
+
+                return res.json({
+                    status: "ok"
+                })
+            }
+        }
     }
 
     async saveNote(req, res) {

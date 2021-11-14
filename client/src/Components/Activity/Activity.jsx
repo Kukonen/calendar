@@ -64,6 +64,52 @@ const Activity = (props) => {
     })
 
     const noteDelete = () => {
+
+        let activity = JSON.parse(localStorage.getItem('activity'))
+
+        const day =  date.getDate();
+
+        let calendarDate =  new Date(date);
+        calendarDate.setDate(1);
+        calendarDate.setHours(1);
+        calendarDate.setMinutes(1);
+        calendarDate.setSeconds(1);
+        calendarDate.setMilliseconds(1);
+
+        const idxActivity = activity.map(act => act.date).findIndex(actDate => 
+            actDate === calendarDate.getTime()
+        );
+
+        if (idxActivity === -1) {
+            setNote("");
+        } else {
+            const idxDay = activity[idxActivity].notes.map(notes => notes.day).indexOf(day);
+
+            if (idxDay === -1) {
+                setNote("");
+            } else {
+                if (activity[idxActivity].notes.length > 1) {
+                    activity[idxActivity].notes.splice(idxDay ,1);
+                } else {
+                    if (activity.length > 1) {
+                        activity.slice(idxDay ,1);
+                    } else {
+                        activity = []
+                    }
+                }
+
+                localStorage.setItem('activity', JSON.stringify(activity));
+
+                axios.post('calendar/deletenote', {
+                    date: calendarDate.getTime()
+                }).then(response => {
+                    setNote("");
+                })
+            } 
+        }
+
+        localStorage.setItem('activity', JSON.stringify(activity))
+
         axios.post("calendar/deletenote", {
             date: date.getTime(),
             note

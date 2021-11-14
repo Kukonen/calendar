@@ -125,7 +125,6 @@ const App = () => {
         axios.get(`calendar/getnote`).then(response => {
             if (response.data.status === "ok") {
                 localStorage.setItem('activity', JSON.stringify(response.data.activity))
-                console.log(JSON.parse(localStorage.getItem('activity')))
             }
         })
     }, [])
