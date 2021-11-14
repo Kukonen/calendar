@@ -4,7 +4,7 @@ const CalendarController = require('../controllers/calendar.controller');
 
 route.post('/getactivity', CalendarController.getActivity);
 route.post('/setactivity', CalendarController.setActivity);
-route.get('/getnote/:date', CalendarController.getNote);
+route.get('/getnote', CalendarController.getNote);
 route.post('/deletenote', CalendarController.deleteNote);
 route.post('/savenote', CalendarController.saveNote);
 

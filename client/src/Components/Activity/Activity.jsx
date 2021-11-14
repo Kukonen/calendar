@@ -7,14 +7,51 @@ import { ReactComponent as SaveImg } from './save.svg';
 
 const Activity = (props) => {
 
+    // we use defaultValue with props becouse, if note will be change, then with setNote all will be ok,
+    // if user will save without change, then save note be use and server will not be forced to change database
+
     const {mode, onСlose} = props;
 
     const date = new Date(props.date);
 
-    const [note, setNote] = useState(props.note);
+    const [note, setNote] = useState("");
+
+    useEffect(() => {
+        if (mode === "active") {
+            const activity = JSON.parse(localStorage.getItem('activity'))
+
+            const day =  date.getDate();
+
+            let calendarDate =  date;
+            calendarDate.setDate(1);
+            calendarDate.setHours(1);
+            calendarDate.setMinutes(1);
+            calendarDate.setSeconds(1);
+            calendarDate.setMilliseconds(1);
+
+            const idxActivity = activity.map(act => act.date).findIndex(actDate => 
+                actDate === calendarDate.getTime()
+            );
+
+            if (idxActivity === -1) {
+                return;
+            }
+
+            const idxDay = activity[idxActivity].notes.map(notes => notes.day).indexOf(day);
+
+            if (idxDay === -1) {
+                return;
+            }
+
+            const activityNote = activity[idxActivity].notes[idxDay].note;
+
+            setNote(activityNote);
+        }
+    }, [mode])
 
     const close = (event) => {
         if (event.code === "Escape") {
+            setNote("");
             onСlose();
         }
     }
@@ -69,10 +106,8 @@ const Activity = (props) => {
                         cols="30" 
                         rows="10"
                         onChange={event => setNote(event.target.value)}
+                        defaultValue={note}
                     >
-                    {
-                        note
-                    }
                     </textarea>
                 </div>
             </div>

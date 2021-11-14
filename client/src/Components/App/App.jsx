@@ -1,5 +1,5 @@
 import React from 'react'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import axios from 'axios';
 import { Context } from '../../context';
 
@@ -118,26 +118,26 @@ const App = () => {
     }
 
     const [activeWindowMode, setActiveWindowMode] = useState("nonactive");
-
-    const [note, setNote] = useState("");
     const [activityDate, setActivityDate] = useState(0);
+
+    // get all notes and white to localstorage
+    useEffect(() => {
+        axios.get(`calendar/getnote`).then(response => {
+            if (response.data.status === "ok") {
+                localStorage.setItem('activity', JSON.stringify(response.data.activity))
+                console.log(JSON.parse(localStorage.getItem('activity')))
+            }
+        })
+    }, [])
 
     const openActivity = (day) => {
         let dateOfThisActivity = date;
         dateOfThisActivity.setDate(day);
-
+        dateOfThisActivity = dateOfThisActivity.getTime();
         if (day) {
-            axios.get(`calendar/getnote/${dateOfThisActivity}`).then(response => {
-                console.log(response.data)
-            })
-            setActivityDate(dateOfThisActivity.getTime());
+            setActivityDate(dateOfThisActivity);
         } else {
             return;
-        }
-        if (note) {
-            setNote(note);
-        } else {
-            setNote("");
         }
 
         setActiveWindowMode("active");
@@ -145,6 +145,7 @@ const App = () => {
 
     function onСloseActiveWindow() {
         setActiveWindowMode("nonactive")
+        setActivityDate(0);
     }
 
     return (
@@ -160,7 +161,6 @@ const App = () => {
                 <Activity 
                     mode={activeWindowMode}
                     onСlose={onСloseActiveWindow}
-                    note = {note}
                     date = {activityDate}
                 />
                 <Header modelWindow={onChangeModelWindowState} />

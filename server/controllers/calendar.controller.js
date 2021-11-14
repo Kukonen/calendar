@@ -51,15 +51,15 @@ class CalendarController {
 
     async getNote(req, res) {
         const key = req.cookies.key;
-        const date = new Date(req.params.date);
-        
 
-        const day = date.getDate();
+        if (!key) {
+            return res.json({
+                status: "error",
+                discription: "user are not login"
+            })
+        }
 
-        let dateWithFirstDay = date;
-        dateWithFirstDay.setDate(1);
-
-        let calendar = await Calendar.findOne({key});
+        const calendar = await Calendar.findOne({key});
 
         if (!calendar) {
             return res.json({
@@ -68,14 +68,10 @@ class CalendarController {
             })
         }
 
-        // calendar = calendar.filter(calendarDate => calendarDate.date === dateWithFirstDay);
-
-        if (!calendar) {
-            return res.json({
-                status: "error",
-                discription: "date not found"
-            })
-        }
+        return res.json({
+            status: "ok",
+            activity: calendar.activity
+        })
     }
 
     async deleteNote(req, res) {
