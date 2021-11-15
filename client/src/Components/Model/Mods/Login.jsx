@@ -26,6 +26,11 @@ const Login = (props) => {
             if (response.data.status === "ok") {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 changeMode("invisible");
+                axios.get(`calendar/getnote`).then(response => {
+                    if (response.data.status === "ok") {
+                        localStorage.setItem('activity', JSON.stringify(response.data.activity))
+                    }
+                })
             }
             if (response.data.status === "error") {
                 setError("Invalid email or pasword");
