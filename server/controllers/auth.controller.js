@@ -237,6 +237,13 @@ class AuthController {
         
         
     }
+
+    async logout(req, res) {
+        res.clearCookie('key');
+        return res.json({
+            status: "ok"
+        })
+    }
 }
 
 module.exports = new AuthController();

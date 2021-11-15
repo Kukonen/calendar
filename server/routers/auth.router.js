@@ -8,5 +8,6 @@ route.post('/login', AuthController.login);
 route.post('/changename', AuthController.changeName);
 route.post('/changepassword', AuthController.changePassword);
 route.get('/checkchangepassword/:id', AuthController.checkChangePassword);
+route.get('/logout', AuthController.logout);
 
 module.exports = route;

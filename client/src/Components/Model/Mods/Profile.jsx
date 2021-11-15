@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import '../Model.scss';
 
-const Profile = () => {
+const Profile = (props) => {
+
+    const {onClose} = props;
 
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -50,6 +52,16 @@ const Profile = () => {
             }
             if (response.data.status === "error") {
                 setPassowordError("something went wrong")
+            }
+        })
+    }
+
+    const logout = () => {
+        axios.get('auth/logout').then(response => {
+            if (response.data.status === "ok") {
+                localStorage.removeItem('user');
+                localStorage.removeItem('activity');
+                onClose()
             }
         })
     }
@@ -133,7 +145,14 @@ const Profile = () => {
                                 </div> :
                                 null
                         }
-                    </div>    
+                    </div>
+                    <div className="ModelSection">
+                        <div className="ModelButton ModelLogOutButton"
+                            onClick = {() => logout()}
+                        >
+                            Log Out
+                        </div>
+                    </div>
                 </div>
         </div>
     )

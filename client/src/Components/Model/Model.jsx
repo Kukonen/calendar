@@ -34,7 +34,7 @@ const Model = (props) => {
         )
     } else if (mode === "profile") {
         return (
-            <Profile />
+            <Profile onClose={onСlose}/>
         )
     } else if (mode === "invisible") {
         return (
