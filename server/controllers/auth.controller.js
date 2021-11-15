@@ -2,6 +2,7 @@ const User = require('../model/User');
 const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const ChangePassword = require('../model/ChangePassword');
 
 class AuthController {
 
@@ -52,13 +53,16 @@ class AuthController {
         } catch {
             return res.json({
                 status: "error",
-                discription: "error with send"
+                discription: "error with send mail"
             })
         }
         await new User({id, key, name, email, password: hashPassword}).save().then(() => {
             res.cookie('key', key, {httpOnly: true})
             res.json({
-                status: "ok"
+                status: "ok",
+                user: {
+                    name
+                }
             })
         });
     }
@@ -76,7 +80,10 @@ class AuthController {
         if (paswordMatch) {
             res.cookie('key', user.key, {httpOnly: true})
             res.json({  
-                status: "ok"
+                status: "ok",
+                user: {
+                    name: user.name
+                }
             })
         } else {
             res.json({
@@ -84,6 +91,106 @@ class AuthController {
                 discription: "passwords does not match"
             })
         }
+    }
+
+    async changeName(req, res) {
+        const key = req.cookies.key;
+
+        const {name} = req.body;
+
+        if (!key) {
+            return res.json({
+                status: "error",
+                discription: "user are not loggin"
+            })
+        }
+
+        let user = await User.findOne({key});
+
+        if (!user) {
+            return res.json({
+                status: "error",
+                discription: "user not found"
+            })
+        }
+
+        await User.findOneAndUpdate({key}, {name})
+
+        res.json({
+            status: "ok"
+        })
+    }
+
+    async changePassword(req, res) {
+        const key = req.cookies.key;
+        const id = uuid.v4();
+        const path = uuid.v4();
+
+        const {password} = req.body;
+
+        if (!key) {
+            return res.json({
+                status: "error",
+                discription: "user are not loggin"
+            })
+        }
+
+        let user = await User.findOne({key});
+
+        if (!user) {
+            return res.json({
+                status: "error",
+                discription: "user not found"
+            })
+        }
+
+        const salt =  await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        await new ChangePassword({id, key, path, password: hashPassword}).save();
+        
+
+        try {
+            let message = {
+                from: `${process.env.EMAIL}`,
+                to: user.email,
+                subject: "Calendar",
+                html: `
+                <h3>Hello, ${user.name}.</h3>
+                <br/>
+                <p>If you haven't changed your password recently, follow <a href=${process.env.SITEPATH}auth/checkchangepassword/${path}>this link</a>!</p>
+                `
+            };
+
+        let transporter = nodemailer.createTransport({
+                host: "smtp.mail.ru",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: `${process.env.EMAIL}`,
+                    pass: `${process.env.EMAIL_PASSWORD}`
+                }
+            });
+
+            await transporter.sendMail(message).then()
+
+        } catch {
+            return res.json({
+                status: "error",
+                discription: "error with send mail"
+            })
+        }
+
+        res.json({
+            status: "ok"
+        })
+
+    }
+
+    async checkChangePassword(req, res) {
+        const id = req.params.id;
+
+        console.log(id)
     }
 }
 

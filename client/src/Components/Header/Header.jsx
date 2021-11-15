@@ -1,28 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './Header.scss';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 
-const date = new Date()
-
-const getName = () => {
-    axios.post('/api/login', {
-        key: Cookies.get('key')
-    }).then(response => {
-        return response.data.name;
-    }).catch(e => {
-        console.log(e);
-        return null
-    })
-}
-
-const name = Cookies.get('name') ?
-    Cookies.get('name') :
-    Cookies.get('key') ?
-    getName() :
-    null
-
 const Header = (props) => {
+    const date = new Date()
+
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
+    useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem('user')));
+    }, [localStorage.getItem('user')])
 
     const {modelWindow} = props;
 
@@ -30,9 +18,9 @@ const Header = (props) => {
         <div className = "Header">
             <div className = "HeaderBlock HeaderCalendar">Calendar</div>
             {
-                name ?
+                user ?
                 <div className = "HeaderBlock HeaderProfile" onClick={() => modelWindow("profile")}>
-                    {name}
+                    {user.name}
                 </div> :
                 <div className = "HeaderBlock HeaderProfile" onClick={() => modelWindow("login")}>
                     Sign in

@@ -22,6 +22,19 @@ $border-color: #efefef;
     font-size: 22px;
 }
 
+.ModelSectionHeadline {
+    margin: 30px auto auto auto;
+    font-size: 20px;
+}
+
+.ModelSection {
+    padding: 5px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid $border-color;
+}
+
 .ModelInputBlock {
     display: flex;
     margin: 20px 10px 0 10px;
@@ -68,6 +81,21 @@ $border-color: #efefef;
     text-align: center;
     border-radius: 5px;
     background-color: rgb(250, 61, 61);
+    color: white;
+}
+
+.ModelSuccessBlock {
+    display: flex;
+    margin: 20px 10px 30px 10px;
+}
+
+.ModelSuccess {
+    margin: auto;
+    font-size: 20px;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: rgb(46, 251, 73);
     color: white;
 }
 

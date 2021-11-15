@@ -18,11 +18,14 @@ const Login = (props) => {
         if (password === "") {
             setError("Invalid pasword");
         }
-        axios.post('/auth/login', {
+        axios.post('auth/login', {
             email,
             password
         }).then(response => {
-            console.log(response.data)
+            if (response.data.status === "ok") {
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                changeMode("invisible");
+            }
         })
     }
 

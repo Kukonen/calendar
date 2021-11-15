@@ -27,7 +27,10 @@ const Register = (props) => {
             email,
             password
         }).then(response => {
-            console.log(response.data)
+            if (response.data.status === "ok") {
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                changeMode("invisible");
+            }
         })
     }
 
