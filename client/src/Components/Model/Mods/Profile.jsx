@@ -48,6 +48,9 @@ const Profile = () => {
             if (response.data.status === "ok") {
                 setPassowordSuccess("сonfirm the changes in the email")
             }
+            if (response.data.status === "error") {
+                setPassowordError("something went wrong")
+            }
         })
     }
 
@@ -96,7 +99,7 @@ const Profile = () => {
                     <div className="ModelSection">
                         <div className="ModelSectionHeadline">Change Password</div>
                         <div className="ModelInputBlock">
-                        <input className="ModelInput" type="text" placeholder="new password" 
+                        <input className="ModelInput" type="password" placeholder="new password" 
                             value={password}
                             onChange={event => {
                                 setPassowordError("");

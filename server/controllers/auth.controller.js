@@ -79,14 +79,14 @@ class AuthController {
         const paswordMatch = await bcrypt.compare(password, user.password)
         if (paswordMatch) {
             res.cookie('key', user.key, {httpOnly: true})
-            res.json({  
+            return res.json({  
                 status: "ok",
                 user: {
                     name: user.name
                 }
             })
         } else {
-            res.json({
+            return res.json({
                 status: "error",
                 discription: "passwords does not match"
             })
@@ -124,7 +124,7 @@ class AuthController {
     async changePassword(req, res) {
         const key = req.cookies.key;
         const id = uuid.v4();
-        const path = uuid.v4();
+        const path = uuid.v4().split('-').join('');
 
         const {password} = req.body;
 
@@ -147,6 +147,22 @@ class AuthController {
         const salt =  await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
 
+        const paswordMatch = await bcrypt.compare(password, user.password);
+
+        if (paswordMatch) {
+            return res.json({
+                status: "error",
+                discription: "passwords match"
+            })
+        }
+
+        const alreadyChangePassword = await ChangePassword.findOne({key});
+        
+        if (alreadyChangePassword) {
+            await ChangePassword.findOneAndDelete({key});
+        }
+        
+
         await new ChangePassword({id, key, path, password: hashPassword}).save();
         
 
@@ -158,7 +174,7 @@ class AuthController {
                 html: `
                 <h3>Hello, ${user.name}.</h3>
                 <br/>
-                <p>If you haven't changed your password recently, follow <a href=${process.env.SITEPATH}auth/checkchangepassword/${path}>this link</a>!</p>
+                <p>If you haven't changed your password recently, follow <a href=${process.env.SERVERPATH}auth/checkchangepassword/${path}>this link</a>!</p>
                 `
             };
 
@@ -188,9 +204,38 @@ class AuthController {
     }
 
     async checkChangePassword(req, res) {
+        console.log("here")
         const id = req.params.id;
+        const key = req.cookies.key;
 
-        console.log(id)
+        const changePassword = await ChangePassword.findOne({path: id})
+        
+        if (!changePassword) {
+            return res.json({
+                status: "error",
+                discription: "change password requst not found"
+            })
+        }
+
+        if (changePassword.key !== key) {
+            return res.json({
+                status: "error",
+                discription: "user no same"
+            })
+        }
+
+        await ChangePassword.findOneAndDelete({path: id})
+
+        await User.findOneAndUpdate({key}, {password: changePassword.password}).then(response => {
+            res.redirect(process.env.SITEPATH)
+        }).catch(e => {
+            return res.json({
+                status: "ok",
+                discription: "password don't update"
+            })
+        });
+        
+        
     }
 }
 

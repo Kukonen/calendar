@@ -22,9 +22,13 @@ const Login = (props) => {
             email,
             password
         }).then(response => {
+            console.log(response.data)
             if (response.data.status === "ok") {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 changeMode("invisible");
+            }
+            if (response.data.status === "error") {
+                setError("Invalid email or pasword");
             }
         })
     }

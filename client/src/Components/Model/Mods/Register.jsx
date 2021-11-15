@@ -31,6 +31,9 @@ const Register = (props) => {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
                 changeMode("invisible");
             }
+            if (response.data.status === "error") {
+                setError("something went wrong");
+            }
         })
     }
 
