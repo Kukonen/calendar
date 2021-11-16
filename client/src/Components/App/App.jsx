@@ -40,9 +40,9 @@ const App = () => {
             date
         }).then(response => {
             const data = response.data;
-            if (data.status === "ok") {
-                setActivity(data.activity);
-            }
+            setActivity(data.activity);
+        }).catch(e => {
+            
         })
     }
 
@@ -119,9 +119,9 @@ const App = () => {
     // get all notes and white to localstorage
     useEffect(() => {
         axios.get(`calendar/getnote`).then(response => {
-            if (response.data.status === "ok") {
-                localStorage.setItem('activity', JSON.stringify(response.data.activity))
-            }
+            localStorage.setItem('activity', JSON.stringify(response.data.activity))
+        }).catch(e => {
+            
         })
     }, [])
 

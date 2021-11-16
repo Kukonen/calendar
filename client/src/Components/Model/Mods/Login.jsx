@@ -22,19 +22,17 @@ const Login = (props) => {
             email,
             password
         }).then(response => {
-            console.log(response.data)
-            if (response.data.status === "ok") {
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-                changeMode("invisible");
-                axios.get(`calendar/getnote`).then(response => {
-                    if (response.data.status === "ok") {
-                        localStorage.setItem('activity', JSON.stringify(response.data.activity))
-                    }
-                })
-            }
-            if (response.data.status === "error") {
-                setError("Invalid email or pasword");
-            }
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            changeMode("invisible");
+            axios.get(`calendar/getnote`).then(response => {
+                if (response.data.status === "ok") {
+                    localStorage.setItem('activity', JSON.stringify(response.data.activity))
+                }
+            }).catch(e => {
+            
+            })
+        }).catch(e => {
+            setError("Invalid email or pasword");
         })
     }
 

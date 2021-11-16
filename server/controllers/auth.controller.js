@@ -11,15 +11,13 @@ class AuthController {
         const key = uuid.v4();
         const { name, email, password } = req.body;
         if (email.indexOf('@') === -1) {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "email is not correct"
             })
         }
         const user = await User.findOne({email});
         if (user) {
-            return res.json({
-                status: "error",
+            return res.status(409).json({
                 discription: "user already register"
             })
         }
@@ -51,15 +49,13 @@ class AuthController {
             await transporter.sendMail(message).then()
 
         } catch {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "error with send mail"
             })
         }
         await new User({id, key, name, email, password: hashPassword}).save().then(() => {
             res.cookie('key', key, {httpOnly: true})
-            res.json({
-                status: "ok",
+            res.status(200).json({
                 user: {
                     name
                 }
@@ -71,23 +67,20 @@ class AuthController {
         const { email, password } = req.body;
         const user = await User.findOne({email});
         if (!user) {
-            return res.json({
-                status: "error",
+            return res.status(404).json({
                 discription: "user not found"
             })
         }
         const paswordMatch = await bcrypt.compare(password, user.password)
         if (paswordMatch) {
             res.cookie('key', user.key, {httpOnly: true})
-            return res.json({  
-                status: "ok",
+            return res.status(200).json({ 
                 user: {
                     name: user.name
                 }
             })
         } else {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "passwords does not match"
             })
         }
@@ -99,8 +92,7 @@ class AuthController {
         const {name} = req.body;
 
         if (!key) {
-            return res.json({
-                status: "error",
+            return res.status(401).json({
                 discription: "user are not loggin"
             })
         }
@@ -108,17 +100,14 @@ class AuthController {
         let user = await User.findOne({key});
 
         if (!user) {
-            return res.json({
-                status: "error",
+            return res.status(404).json({
                 discription: "user not found"
             })
         }
 
         await User.findOneAndUpdate({key}, {name})
 
-        res.json({
-            status: "ok"
-        })
+        res.status(200);
     }
 
     async changePassword(req, res) {
@@ -129,8 +118,7 @@ class AuthController {
         const {password} = req.body;
 
         if (!key) {
-            return res.json({
-                status: "error",
+            return res.status(401).json({
                 discription: "user are not loggin"
             })
         }
@@ -138,8 +126,7 @@ class AuthController {
         let user = await User.findOne({key});
 
         if (!user) {
-            return res.json({
-                status: "error",
+            return res.status(404).json({
                 discription: "user not found"
             })
         }
@@ -150,8 +137,7 @@ class AuthController {
         const paswordMatch = await bcrypt.compare(password, user.password);
 
         if (paswordMatch) {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "passwords match"
             })
         }
@@ -191,15 +177,12 @@ class AuthController {
             await transporter.sendMail(message).then()
 
         } catch {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "error with send mail"
             })
         }
 
-        res.json({
-            status: "ok"
-        })
+        res.status(200);
 
     }
 
@@ -211,15 +194,13 @@ class AuthController {
         const changePassword = await ChangePassword.findOne({path: id})
         
         if (!changePassword) {
-            return res.json({
-                status: "error",
+            return res.status(404).json({
                 discription: "change password requst not found"
             })
         }
 
         if (changePassword.key !== key) {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "user no same"
             })
         }
@@ -229,8 +210,7 @@ class AuthController {
         await User.findOneAndUpdate({key}, {password: changePassword.password}).then(response => {
             res.redirect(process.env.SITEPATH)
         }).catch(e => {
-            return res.json({
-                status: "ok",
+            return res.status(200).json({
                 discription: "password don't update"
             })
         });
@@ -240,9 +220,7 @@ class AuthController {
 
     async logout(req, res) {
         res.clearCookie('key');
-        return res.json({
-            status: "ok"
-        })
+        return res.status(200);
     }
 }
 

@@ -24,17 +24,14 @@ const Profile = (props) => {
         axios.post('auth/changename', {
             name
         }).then(response => {
-            if (response.data.status === "ok") {
-                const user = JSON.parse(localStorage.getItem('user'))
-                if (user) {
-                    user.name = name;
-                    localStorage.setItem('user', JSON.stringify(user));
-                    setNameSuccess("name has been changed")
-                }
+             const user = JSON.parse(localStorage.getItem('user'))
+            if (user) {
+                user.name = name;
+                localStorage.setItem('user', JSON.stringify(user));
+                setNameSuccess("name has been changed")
             }
-            if (response.data.status === "error") {
-                setNameError("something went wrong")
-            }
+        }).catch(e => {
+            setNameError("something went wrong")
         })
     }
 
@@ -47,22 +44,19 @@ const Profile = (props) => {
         axios.post('auth/changepassword', {
             password
         }).then(response => {
-            if (response.data.status === "ok") {
-                setPassowordSuccess("сonfirm the changes in the email")
-            }
-            if (response.data.status === "error") {
-                setPassowordError("something went wrong")
-            }
+            setPassowordSuccess("сonfirm the changes in the email")
+        }).catch(e => {
+            setPassowordError("something went wrong")
         })
     }
 
     const logout = () => {
         axios.get('auth/logout').then(response => {
-            if (response.data.status === "ok") {
-                localStorage.removeItem('user');
-                localStorage.removeItem('activity');
-                onClose()
-            }
+            localStorage.removeItem('user');
+            localStorage.removeItem('activity');
+            onClose()
+        }).catch(e => {
+
         })
     }
 

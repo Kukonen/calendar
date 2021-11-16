@@ -27,13 +27,10 @@ const Register = (props) => {
             email,
             password
         }).then(response => {
-            if (response.data.status === "ok") {
-                localStorage.setItem('user', JSON.stringify(response.data.user));
-                changeMode("invisible");
-            }
-            if (response.data.status === "error") {
-                setError("something went wrong");
-            }
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            changeMode("invisible");
+        }).catch(e => {
+            setError("something went wrong");
         })
     }
 

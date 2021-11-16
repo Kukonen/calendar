@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import './Header.scss';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 
 const Header = (props) => {
     const date = new Date()

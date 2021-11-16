@@ -9,8 +9,7 @@ class CalendarController {
         const calendar = await Calendar.findOne({key});
 
         if (!calendar) {
-            return res.json({
-                status: "error",
+            return res.status(401).json({
                 discription: "user not loggin"
             })
         }
@@ -23,9 +22,8 @@ class CalendarController {
         const calendar = await Calendar.findOne({key});
 
         if (!calendar) {
-            return res.json({
-                status: "error",
-                discription: "user not found"
+            return res.status(404).json({
+                discription: "calendar not found"
             })
         }
 
@@ -53,8 +51,7 @@ class CalendarController {
         const key = req.cookies.key;
 
         if (!key) {
-            return res.json({
-                status: "error",
+            return res.status(401).json({
                 discription: "user are not login"
             })
         }
@@ -62,14 +59,12 @@ class CalendarController {
         const calendar = await Calendar.findOne({key});
 
         if (!calendar) {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "user have not calendar"
             })
         }
 
-        return res.json({
-            status: "ok",
+        return res.status(200).json({
             activity: calendar.activity
         })
     }
@@ -78,8 +73,7 @@ class CalendarController {
         const key = req.cookies.key;
 
         if (!key) {
-            return res.json({
-                status: "error",
+            return res.status(401).json({
                 discription: "user are not login"
             })
         }
@@ -98,8 +92,7 @@ class CalendarController {
         const calendar = await Calendar.findOne({key});
 
         if (!calendar) {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "user have not calendar"
             })
         }
@@ -111,16 +104,14 @@ class CalendarController {
         );
 
         if (idxActivity === -1) {
-            return res.json({
-                status: "error",
+            return res.status(400).json({
                 discription: "no such note in calendar"
             })
         } else {
             const idxDay = activity[idxActivity].notes.map(notes => notes.day).indexOf(day);
 
             if (idxDay === -1) {
-                return res.json({
-                    status: "error",
+                return res.status(400).json({
                     discription: "no such note in calendar"
                 })
             } else {
@@ -136,9 +127,7 @@ class CalendarController {
 
                 await Calendar.findOneAndUpdate({key}, {activity})
 
-                return res.json({
-                    status: "ok"
-                })
+                return res.status(200);
             }
         }
     }
@@ -147,8 +136,7 @@ class CalendarController {
         const key = req.cookies.key;
 
         if (!key) {
-            return res.json({
-                status: "error",
+            return res.status(401).json({
                 discription: "user are not login"
             })
         }
@@ -179,9 +167,7 @@ class CalendarController {
                 }
             }]}).save();
 
-            return res.json({
-                status: "ok"
-            })
+            return res.status(200)
         }
 
         let activity = calendar.activity;
@@ -216,9 +202,7 @@ class CalendarController {
 
         await Calendar.findOneAndUpdate({key}, {activity})
 
-        return res.json({
-            status: "ok"
-        })
+        return res.status(200);
     }
 }
 

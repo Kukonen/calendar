@@ -104,6 +104,8 @@ const Activity = (props) => {
                     date: calendarDate.getTime()
                 }).then(response => {
                     setNote("");
+                }).catch(e => {
+            
                 })
             } 
         }
@@ -113,7 +115,9 @@ const Activity = (props) => {
         axios.post("calendar/deletenote", {
             date: date.getTime(),
             note
-        }).then()
+        }).then().catch(e => {
+            
+        })
     }
 
     const noteSave = () => {
@@ -165,7 +169,9 @@ const Activity = (props) => {
         axios.post("calendar/savenote", {
             date: date.getTime(),
             note
-        }).then()
+        }).then().catch(e => {
+            
+        })
     }
 
     if (mode !== 'active') {
