@@ -3,6 +3,7 @@ const uuid = require('uuid');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const ChangePassword = require('../model/ChangePassword');
+const Calendar = require('../model/Calendar');
 
 class AuthController {
 
@@ -187,7 +188,6 @@ class AuthController {
     }
 
     async checkChangePassword(req, res) {
-        console.log("here")
         const id = req.params.id;
         const key = req.cookies.key;
 
@@ -221,6 +221,33 @@ class AuthController {
     async logout(req, res) {
         res.clearCookie('key');
         return res.status(200);
+    }
+
+    async userInit(req, res) {
+        const key = req.cookies.key;
+
+        if (!key) {
+            return res.status(401);
+        }
+
+        const user = await User.findOne({key})
+
+        if (!user) {
+            return res.status(404);
+        }
+
+        const calendar = await Calendar.findOne({key});
+
+        if (!calendar) {
+            return res.status(200).json({
+                name: user.name
+            })
+        }
+
+        return res.status(200).json({
+            name: user.name,
+            activity: calendar.activity
+        })
     }
 }
 

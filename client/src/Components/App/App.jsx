@@ -118,10 +118,17 @@ const App = () => {
 
     // get all notes and white to localstorage
     useEffect(() => {
-        axios.get(`calendar/getnote`).then(response => {
-            localStorage.setItem('activity', JSON.stringify(response.data.activity))
+        axios.get(`auth/userinit`).then(response => { // request not optimized!!!
+            const {name, activity} = response.data;
+            localStorage.setItem('user', JSON.stringify({
+                name
+            }))
+            if (activity) {
+                localStorage.setItem('activity', JSON.stringify(response.data.activity))
+            }
         }).catch(e => {
-            
+            localStorage.removeItem('user');
+            localStorage.removeItem('activity');
         })
     }, [])
 
